@@ -36,6 +36,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@fontsource/metropolis": "^5.0.4",
 		"@unsass/breakpoint": "^2.3.0",
 		"modern-normalize": "^2.0.0"
 	}

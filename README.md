@@ -44,3 +44,4 @@ You can preview the production build with `npm run preview`.
 - SASS
 - svelte-preprocess isntead of vitePreprocess
 - breakpoints using @unsass/breakpoint package
+- Metropolis Font from @fontsource/metropolis
