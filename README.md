@@ -45,3 +45,4 @@ You can preview the production build with `npm run preview`.
 - svelte-preprocess isntead of vitePreprocess
 - breakpoints using @unsass/breakpoint package
 - Metropolis Font from @fontsource/metropolis
+- PKCE Gen for Spotify Auth
