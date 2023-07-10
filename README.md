@@ -46,3 +46,4 @@ You can preview the production build with `npm run preview`.
 - breakpoints using @unsass/breakpoint package
 - Metropolis Font from @fontsource/metropolis
 - PKCE Gen for Spotify Auth
+- Lucide Icons
