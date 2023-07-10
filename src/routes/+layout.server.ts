@@ -1,5 +1,5 @@
 import type { LayoutServerLoad } from './$types';
-import { BASE_URL, SPOTIFY_BASE_URL } from '$env/static/private';
+import { SPOTIFY_BASE_URL } from '$env/static/private';
 import { redirect } from '@sveltejs/kit';
 
 export const load: LayoutServerLoad = async ({ cookies, fetch, url }) => {
