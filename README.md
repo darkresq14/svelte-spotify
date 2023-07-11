@@ -40,6 +40,7 @@ You can preview the production build with `npm run preview`.
 ## Info
 
 - Svelte & SvelteKit  
+- Accessability First
 - CSS Normalizer - modern-normalize
 - SASS
 - svelte-preprocess isntead of vitePreprocess
