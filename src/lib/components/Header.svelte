@@ -63,6 +63,11 @@
 		justify-content: space-between;
 		align-items: center;
 		width: 100%;
+		:global(html.no-js) & {
+			@include breakpoint.down('md') {
+				justify-content: flex-start;
+			}
+		}
 	}
 
 	.profile-button {
@@ -74,6 +79,9 @@
 		align-items: center;
 		color: var(--text-color);
 		cursor: pointer;
+		:global(html.no-js) & {
+			display: none;
+		}
 		:global(.profile-arrow) {
 			margin-left: 3px;
 		}
@@ -115,6 +123,17 @@
 					text-align: left;
 					font-size: functions.toRem(14);
 				}
+			}
+		}
+	}
+
+	:global(html.no-js) #profile-menu {
+		display: block !important;
+		.profile-menu-content {
+			padding: 0;
+			margin: 0;
+			li {
+				display: inline-block;
 			}
 		}
 	}

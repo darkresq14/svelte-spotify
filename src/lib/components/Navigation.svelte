@@ -171,12 +171,18 @@
 			width: 130px;
 		}
 		.nav-content-inner {
-			display: none;
 			padding: 20px;
 			min-width: var(--sidebar-width);
 			background-color: var(--sidebar-color);
 			height: 100vh;
 			overflow: auto;
+			display: none;
+			:global(html.no-js) & {
+				@include breakpoint.down('md') {
+					display: block;
+					height: auto;
+				}
+			}
 			ul {
 				padding: 0;
 				margin: 20px 0 0;
