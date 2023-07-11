@@ -41,6 +41,7 @@ You can preview the production build with `npm run preview`.
 
 - Svelte & SvelteKit  
 - Accessability First
+- Works even without JS
 - CSS Normalizer - modern-normalize
 - SASS
 - svelte-preprocess isntead of vitePreprocess
@@ -49,3 +50,4 @@ You can preview the production build with `npm run preview`.
 - PKCE Gen for Spotify Auth
 - Lucide Icons
 - Tooltips with Tippy.js
+- Loading progress bars using nprogress
