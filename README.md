@@ -48,3 +48,4 @@ You can preview the production build with `npm run preview`.
 - Metropolis Font from @fontsource/metropolis
 - PKCE Gen for Spotify Auth
 - Lucide Icons
+- Tooltips with Tippy.js
