@@ -51,3 +51,4 @@ You can preview the production build with `npm run preview`.
 - Lucide Icons
 - Tooltips with Tippy.js
 - Loading progress bars using nprogress
+- sharp package for finding out average color of images

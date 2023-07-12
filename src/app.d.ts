@@ -10,6 +10,7 @@ declare global {
 		interface PageData {
 			user: SpotifyApi.CurrentUsersProfileResponse | null;
 			title?: string;
+			color?: string | null;
 		}
 		// interface Platform {}
 	}
