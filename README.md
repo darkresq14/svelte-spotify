@@ -52,3 +52,4 @@ You can preview the production build with `npm run preview`.
 - Tooltips with Tippy.js
 - Loading progress bars using nprogress
 - sharp package for finding out average color of images
+- Unique Id generation using uniqid package
