@@ -9,8 +9,14 @@
 	import 'nprogress/nprogress.css';
 	import { afterNavigate, beforeNavigate } from '$app/navigation';
 	import { hideAll } from 'tippy.js';
+	import MicroModal from 'micromodal';
+	import { browser } from '$app/environment';
 
 	NProgress.configure({ showSpinner: false });
+
+	if (browser) {
+		MicroModal.init();
+	}
 
 	export let data: LayoutData;
 

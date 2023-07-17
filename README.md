@@ -53,3 +53,4 @@ You can preview the production build with `npm run preview`.
 - Loading progress bars using nprogress
 - sharp package for finding out average color of images
 - Unique Id generation using uniqid package
+- Modals using micromodal library

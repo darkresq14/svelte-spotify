@@ -13,7 +13,8 @@ export const actions: Actions = {
 				name,
 				description,
 				nameError: 'Playlist name is required!',
-				apiError: false
+				apiError: false,
+				editForm: true
 			});
 		}
 
@@ -31,7 +32,8 @@ export const actions: Actions = {
 				name,
 				description,
 				nameError: false,
-				apiError: errorJSON?.error?.message || 'Unknown error'
+				apiError: errorJSON?.error?.message || 'Unknown error',
+				editForm: true
 			});
 		} else {
 			if (url.searchParams.has('redirect')) {
