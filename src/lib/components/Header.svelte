@@ -6,13 +6,15 @@
 	import { tippy } from '$actions';
 	import LogoutButton from './LogoutButton.svelte';
 
+	export let userAllPlaylists: SpotifyApi.PlaylistObjectSimplified[] | undefined;
+
 	$: user = $page.data.user;
 </script>
 
 <div class="content">
 	<div class="left">
 		{#if browser}
-			<Navigation desktop={false} />
+			<Navigation desktop={false} {userAllPlaylists} />
 		{/if}
 	</div>
 	<div class="right">

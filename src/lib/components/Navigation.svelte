@@ -8,6 +8,7 @@
 	import { IconButton } from '$components';
 
 	export let desktop: boolean;
+	export let userAllPlaylists: SpotifyApi.PlaylistObjectSimplified[] | undefined;
 
 	let isMobileMenuOpen = false;
 	$: isOpen = desktop || isMobileMenuOpen;
@@ -122,31 +123,44 @@
 					class="close-menu-button"
 				/>
 			{/if}
-			<img src={logo} alt="Spotify Logo" class="logo" />
-			<ul>
-				{#each menuItems as item, index}
-					{@const iconProps = {
-						focusable: 'false',
-						'aria-hidden': true,
-						color: 'var(--text-color)',
-						size: 26,
-						strokeWidth: 2
-					}}
-					<li class:active={item.path === $page.url.pathname}>
-						{#if menuItems.length === index + 1}
-							<a bind:this={lastFocusableElement} on:keydown={moveFocusToTop} href={item.path}>
-								<svelte:component this={item.icon} {...iconProps} />
-								{item.label}
-							</a>
-						{:else}
-							<a href={item.path}>
-								<svelte:component this={item.icon} {...iconProps} />
-								{item.label}
-							</a>
-						{/if}
-					</li>
-				{/each}
-			</ul>
+			<div class="logo-and-menu">
+				<img src={logo} alt="Spotify Logo" class="logo" />
+				<ul>
+					{#each menuItems as item, index}
+						{@const iconProps = {
+							focusable: 'false',
+							'aria-hidden': true,
+							color: 'var(--text-color)',
+							size: 26,
+							strokeWidth: 2
+						}}
+						<li class:active={item.path === $page.url.pathname}>
+							{#if menuItems.length === index + 1}
+								<a bind:this={lastFocusableElement} on:keydown={moveFocusToTop} href={item.path}>
+									<svelte:component this={item.icon} {...iconProps} />
+									{item.label}
+								</a>
+							{:else}
+								<a href={item.path}>
+									<svelte:component this={item.icon} {...iconProps} />
+									{item.label}
+								</a>
+							{/if}
+						</li>
+					{/each}
+				</ul>
+			</div>
+			{#if userAllPlaylists && userAllPlaylists.length > 0}
+				<div class="all-playlists">
+					<ul>
+						{#each userAllPlaylists as playlist}
+							<li class:active={$page.url.pathname.includes(playlist.id)}>
+								<a href="/playlist/{playlist.id}" class="truncate">{playlist.name}</a>
+							</li>
+						{/each}
+					</ul>
+				</div>
+			{/if}
 		</div>
 	</nav>
 </div>
@@ -171,12 +185,35 @@
 			width: 130px;
 		}
 		.nav-content-inner {
-			padding: 20px;
 			min-width: var(--sidebar-width);
 			background-color: var(--sidebar-color);
 			height: 100vh;
-			overflow: auto;
 			display: none;
+			.logo-and-menu {
+				padding: 20px 20px 0;
+				overflow: hidden;
+			}
+			.all-playlists {
+				flex: 1;
+				overflow: auto;
+				padding: 20px 15px;
+				border-top: 1px solid var(--border);
+				:global(html.no-js) & {
+					@include breakpoint.down('md') {
+						display: none;
+					}
+				}
+				ul {
+					list-style: none;
+					margin: 0;
+					li {
+						margin: 0 0 5px;
+						a {
+							margin: 0;
+						}
+					}
+				}
+			}
 			:global(html.no-js) & {
 				@include breakpoint.down('md') {
 					display: block;
@@ -220,7 +257,8 @@
 			top: 0;
 			.nav-content-inner {
 				@include breakpoint.up('md') {
-					display: block;
+					display: flex;
+					flex-direction: column;
 				}
 			}
 		}
@@ -237,7 +275,8 @@
 				opacity: 0;
 			}
 			@include breakpoint.down('md') {
-				display: block;
+				display: flex;
+				flex-direction: column;
 			}
 		}
 	}

@@ -143,6 +143,14 @@ background: var(--accent-color) !important;
 	}
 }
 
+.truncate {
+	max-width: 250px;
+	display: inline-block;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
 input { 
 	border: none; 
 	padding: 0 20px; 
