@@ -22,7 +22,10 @@
 			>{`${album.total_tracks} Track${album.total_tracks > 1 ? 's' : ''}`}</span
 		>
 	</p>
-	<TrackList tracks={album.tracks.items} />
+	<TrackList
+		tracks={album.tracks.items}
+		userPlaylists={data.userAllPlaylists?.filter((p) => p.owner.id === data.user?.id)}
+	/>
 
 	<div class="credits">
 		<p class="date">

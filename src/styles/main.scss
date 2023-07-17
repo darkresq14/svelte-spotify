@@ -144,8 +144,8 @@ background: var(--accent-color) !important;
 }
 
 .truncate {
-	max-width: 250px;
-	display: inline-block;
+	max-width: 200px;
+	display: inline-block !important;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;

@@ -1,13 +1,22 @@
 <script lang="ts">
 	import { msToTime } from '$helpers';
-	import { Clock8, ListPlus } from 'lucide-svelte';
-	import { Player } from '$components';
+	import { Clock8, ListPlus, ListX } from 'lucide-svelte';
+	import { Button, Player } from '$components';
 	import playingGif from '$assets/playing.gif';
+	import { tippy } from '$actions';
+	import { page } from '$app/stores';
+	import { enhance } from '$app/forms';
+	import { toasts } from '$stores';
+	import { hideAll } from 'tippy.js';
 
 	let currentlyPlaying: string | null = null;
 	let isPaused: boolean = false;
 
+	let isAddingToPlaylist: string[] = [];
+
 	export let tracks: SpotifyApi.TrackObjectFull[] | SpotifyApi.TrackObjectSimplified[];
+	export let isOwner: boolean = false;
+	export let userPlaylists: SpotifyApi.PlaylistObjectSimplified[] | undefined;
 </script>
 
 <div class="tracks">
@@ -21,7 +30,7 @@
 		<div class="duration-column">
 			<Clock8 aria-hidden focusable="false" color="var(--light-gray)" />
 		</div>
-		<div class="actions-column">Actions Column</div>
+		<div class="actions-column" class:is-owner={isOwner} />
 	</div>
 	{#each tracks as track, index}
 		<div class="row" class:is-current={currentlyPlaying === track.id}>
@@ -63,8 +72,87 @@
 			<div class="duration-column">
 				<span class="duration">{msToTime(track.duration_ms)}</span>
 			</div>
-			<div class="actions-column">
-				<ListPlus aria-hidden focusable="false" />
+			<div class="actions-column" class:is-owner={isOwner}>
+				{#if isOwner}
+					<ListX aria-hidden focusable="false" />
+				{:else}
+					<button
+						title="Add {track.name} to a playlist"
+						aria-label="Add {track.name} to a playlist"
+						class="add-pl-button"
+						disabled={!userPlaylists || userPlaylists.length === 0}
+						use:tippy={{
+							content: document.getElementById(`${track.id}-playlists-menu`) || undefined,
+							allowHTML: true,
+							trigger: 'click',
+							interactive: true,
+							theme: 'menu',
+							placement: 'bottom-end',
+							onMount: () => {
+								const template = document.getElementById(`${track.id}-playlists-menu`);
+								if (template) {
+									template.style.display = 'block';
+								}
+							}
+						}}
+					>
+						<ListPlus aria-hidden focusable="false" />
+					</button>
+					{#if userPlaylists}
+						<div class="playlists-menu" id="{track.id}-playlists-menu" style="display: none">
+							<div class="playlists-menu-content">
+								<form
+									method="POST"
+									action="/playlist?/addItem&redirect={$page.url.pathname}"
+									use:enhance={({ cancel }) => {
+										if (isAddingToPlaylist.includes(track.id)) {
+											cancel();
+										}
+										isAddingToPlaylist = [...isAddingToPlaylist, track.id];
+										return ({ result }) => {
+											if (result.type === 'error') {
+												toasts.error(result.error.message);
+											}
+											if (result.type === 'redirect') {
+												const url = new URL(`${$page.url.origin}${result.location}`);
+												const error = url.searchParams.get('error');
+												const success = url.searchParams.get('success');
+
+												if (error) {
+													toasts.error(error);
+												}
+												if (success) {
+													toasts.success(success);
+													hideAll();
+												}
+											}
+											isAddingToPlaylist = isAddingToPlaylist.filter((id) => id !== track.id);
+										};
+									}}
+								>
+									<input hidden value={track.id} name="track" />
+									<div class="field">
+										<select aria-label="Playlist" name="playlist">
+											{#each userPlaylists as playlist}
+												<option value={playlist.id}>{playlist.name}</option>
+											{/each}
+										</select>
+									</div>
+									<div class="submit-button">
+										<Button
+											element="button"
+											type="submit"
+											disabled={isAddingToPlaylist.includes(track.id)}
+											>Add <span class="visually-hidden">
+												{track.name} to selected playlist</span
+											></Button
+										>
+									</div>
+								</form>
+							</div>
+						</div>
+					{/if}
+				{/if}
 			</div>
 		</div>
 	{/each}
@@ -215,16 +303,38 @@
 				}
 			}
 			.actions-column {
-				/* display: flex; */
-				/* justify-content: flex-end; */
-				/* align-items: center; */
 				width: 30px;
 				margin-left: 15px;
-				/* :global(svg) {
-					width: 16px;
-					height: 16px;
-					color: var(--light-gray);
-				} */
+				.add-pl-button {
+					background: none;
+					border: none;
+					padding: 5px;
+					cursor: pointer;
+					:global(svg) {
+						stroke: var(--text-color);
+						vertical-align: middle;
+						width: 22px;
+						height: 22px;
+					}
+					&:disabled {
+						opacity: 0.8;
+						cursor: not-allowed;
+					}
+				}
+				.playlists-menu-content {
+					padding: 15px;
+					.field {
+						select {
+							width: 100%;
+							height: 35px;
+							border-radius: 4px;
+						}
+					}
+					.submit-button {
+						margin-top: 10px;
+						text-align: right;
+					}
+				}
 			}
 		}
 	}
