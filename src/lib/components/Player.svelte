@@ -8,6 +8,7 @@
 
 	type Track = SpotifyApi.TrackObjectFull | SpotifyApi.TrackObjectSimplified;
 	export let track: Track;
+	export let tabIndex: number | undefined = undefined;
 
 	const dispatch = createEventDispatcher<{ play: { track: Track }; pause: { track: Track } }>();
 
@@ -39,6 +40,7 @@
 		preload="none"
 	/>
 	<button
+		tabindex={tabIndex}
 		aria-label={paused ? `Play ${track.name}` : `Pause ${track.name}`}
 		on:click={() => {
 			if (paused) {
@@ -75,6 +77,7 @@
 			fill: var(--text-color);
 			width: 12px;
 			height: 12px;
+			vertical-align: middle;
 		}
 		:global(html.no-js) & {
 			display: none;
