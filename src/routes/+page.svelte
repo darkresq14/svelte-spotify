@@ -14,14 +14,14 @@
 		if (data.newReleases) {
 			sections.push({
 				title: 'New Releases',
-				path: '/sections/new-releases',
+				path: '/section/new-releases',
 				items: data.newReleases.albums.items
 			});
 		}
 		if (data.featuredPlaylists) {
 			sections.push({
 				title: 'Featured Playlists',
-				path: '/sections/featured-playlists',
+				path: '/section/featured-playlists',
 				items: data.featuredPlaylists.playlists.items
 			});
 		}
@@ -40,7 +40,7 @@
 		if (data.myPlaylists) {
 			sections.push({
 				title: 'My Playlists',
-				path: '/sections/my-playlists',
+				path: '/section/my-playlists',
 				items: data.myPlaylists.items
 			});
 		}
